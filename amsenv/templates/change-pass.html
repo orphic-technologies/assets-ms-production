@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Dashboard{% endblock title %}
+{% block content %}
+<!-- ============================================================== -->
+<!-- Start right Content here -->
+<!-- ============================================================== -->
+<div class="main-content">
+
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Add Unrecorded Asset</h4>
+
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Assets</a></li>
+                                <li class="breadcrumb-item active">Manage</li>
+                                <li class="breadcrumb-item active">Record New Asset</li>
+                            </ol>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Add new assets</h4>
+                            <p class="card-title-desc">Add new/unrecorded assets in the system by using the form below.
+                            </p>
+                            {% for message in messages %}
+                            {%if message.tags == 'error' %}
+                            <div class="alert alert-danger alert-dismissible fade show" id="messagediv" role="alert">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close"
+                                    id="btnclose">&times;</a>
+                                </button>
+                                {{ message }}
+                            </div>
+                            {%else%}
+                            <div class="alert alert-{{message.tags}} alert-dismissible fade show" id="messagediv"
+                                role="alert">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close"
+                                    id="btnclose">&times;</a>
+                                </button>
+                                {{ message }}
+                            </div>
+                            {%endif%}
+                            {% endfor %}
+                            <form class="needs-validation" method="POST" action="{% url 'changepass' %}"
+                                enctype="multipart/form-data" novalidate>
+                                {% csrf_token %}
+                                <div class="row">
+                                    <!-- name -->
+                                    <div class="mb-3 position-relative">
+                                        <label class="form-label" for="validationTooltip01">Name</label>
+                                        <input type="text" class="form-control" id="validationTooltip01"
+                                            placeholder="Name of asset" name="name" value="{{user}}" required>
+                                        <div class="valid-tooltip">
+                                            Looks good!
+                                        </div>
+                                        <div class="invalid-tooltip">
+                                            Please enter a valid asset's name.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 position-relative">
+                                        <label class="form-label" for="validationTooltip01">Old Password</label>
+                                        <input type="password" class="form-control" id="validationTooltip01"
+                                            placeholder="Name of asset" name="oldPass" value="{{user}}" required>
+                                        <div class="valid-tooltip">
+                                            Looks good!
+                                        </div>
+                                        <div class="invalid-tooltip">
+                                            Please enter a valid asset's name.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 position-relative">
+                                        <label class="form-label" for="validationTooltip01">New Password</label>
+                                        <input type="password" class="form-control" id="validationTooltip01"
+                                            placeholder="Name of asset" name="newPass1" value="{{user}}" required>
+                                        <div class="valid-tooltip">
+                                            Looks good!
+                                        </div>
+                                        <div class="invalid-tooltip">
+                                            Please enter a valid asset's name.
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 position-relative">
+                                        <label class="form-label" for="validationTooltip01">Re-type new-password</label>
+                                        <input type="password" class="form-control" id="validationTooltip01"
+                                            placeholder="Name of asset" name="newPass2" value="{{user}}" required>
+                                        <div class="valid-tooltip">
+                                            Looks good!
+                                        </div>
+                                        <div class="invalid-tooltip">
+                                            Please enter a valid asset's name.
+                                        </div>
+                                    </div>
+                                </div>
+
+                        </div>
+
+                        <!-- Submit Form -->
+                        <div class="text-center">
+                            <button class="btn btn-primary" type="submit">Change</button>
+                        </div>
+
+
+                        </form>
+                        <br />
+                    </div>
+                </div>
+                <!-- end card -->
+            </div> <!-- end col -->
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+{% endblock content %}

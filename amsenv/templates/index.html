@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Dashboard | Assets MS{% endblock title %}
+{% block content %}
+<!-- ============================================================== -->
+<!-- Start right Content here -->
+<!-- ============================================================== -->
+<div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Dashboard</h4>
+
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Assets-MS</a></li>
+                                <li class="breadcrumb-item active">Dashboard</li>
+                            </ol>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+
+            <!-- single page ma -->
+            <div class="row">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Latest Assets Stats</h5>
+                        <div>
+                            <ul class="list-unstyled">
+                                <li class="py-3">
+                                    <div class="d-flex">
+                                        <div class="avatar-xs align-self-center me-3">
+                                            <div class="avatar-title rounded-circle bg-light text-primary font-size-18">
+                                                <i class="ri-checkbox-circle-line"></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <p class="text-muted mb-2">Available</p>
+                                            <div class="progress progress-sm animated-progess">
+                                                <div class="progress-bar bg-success" role="progressbar"
+                                                    style="width: {{availablepercent}}%"
+                                                    aria-valuenow="{{availableassets}}" aria-valuemin="0"
+                                                    aria-valuemax="{{totalasset}}"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="py-3">
+                                    <div class="d-flex">
+                                        <div class="avatar-xs align-self-center me-3">
+                                            <div class="avatar-title rounded-circle bg-light text-primary font-size-18">
+                                                <i class="ri-close-circle-line"></i>
+                                            </div>
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <p class="text-muted mb-2">Assets In Use</p>
+                                            <div class="progress progress-sm animated-progess">
+                                                <div class="progress-bar bg-danger" role="progressbar"
+                                                    style="width: {{asiignpercent}}%" aria-valuenow="{{assignedassets}}"
+                                                    aria-valuemin="0" aria-valuemax="{{totalasset}}"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <hr>
+
+                        <div class="text-center">
+                            <div class="row">
+                                <div class="col-3">
+                                    <div class="mt-2">
+                                        <p class="text-muted mb-2">Total Assets</p>
+                                        <h5 class="font-size-16 mb-0">{{totalasset}}</h5>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="mt-2">
+                                        <p class="text-muted mb-2">Available</p>
+                                        <h5 class="font-size-16 mb-0">{{availableassets}}</h5>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="mt-2">
+                                        <p class="text-muted mb-2">In Use</p>
+                                        <h5 class="font-size-16 mb-0">{{assignedassets}}</h5>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="mt-2">
+                                        <p class="text-muted mb-2">Requires Repair</p>
+                                        <h5 class="font-size-16 mb-0">{{requiresrepair}}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end card-body -->
+
+                </div>
+                <!-- end card -->
+            </div>
+            <!-- end col -->
+            <!-- end col -->
+        </div>
+        <!-- end row -->
+        <!-- end row -->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        {% if assetstoreturn%}
+                        <h4 class="card-title mb-4">Recently Assigned Assets</h4>
+
+                        <div class="table-responsive">
+                            <table class="table table-centered table-nowrap mb-0">
+                                <thead>
+                                    <tr>
+
+                                        <th scope="col" colspan="3">Code & Name</th>
+                                        <th scope="col">Assigned To</th>
+                                        <th scope="col">Assigned Date</th>
+                                        <th scope="col">Estimated Date of Return</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    {% for tokens, queryset in assetstoreturn %}
+                                    <tr>
+                                        <td colspan="3">
+                                            <div class="row">
+                                                {%for query in queryset%}
+                                                <div class="col-sm-4">
+                                                    <h5 class="font-size-15 mb-0">{{query.asset_info}}</h5>
+                                                    <p class="mb-1 font-size-12">{{query.asset_info.asset_code}}</p>
+                                                </div>
+                                                {%endfor%}
+                                            </div>
+                                        </td>
+                                        {%for query in queryset|slice:":1" %}
+                                        <td>
+                                            <h5 class="font-size-15 mb-0">{{query.nameofstaff}}</h5>
+                                        </td>
+                                        {%endfor%}
+                                        {%for query in queryset|slice:":1" %}
+                                        <td>{{query.date_of_issue}}</td>
+                                        {%endfor%}
+                                        {%for query in queryset|slice:":1"%}
+                                        <td>{{query.estimated_date_of_return}}</td>
+                                        {%endfor%}
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {%else%}
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">No assets are assigned</h4>
+                            </div>
+                        </div>
+                        {%endif%}
+                    </div>
+                    <!-- end card-body -->
+                </div>
+                <!-- end card -->
+            </div>
+            <!-- end col -->
+        </div>
+    </div>
+</div>
+<!-- End Page-content -->
+
+{% endblock content %}
+{% block inlinescript %}
+<script>
+</script>
+{% endblock inlinescript %}

@@ -1,0 +1,357 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Record | Assets MS{% endblock title %}
+{% block inlinecss %}
+<style>
+    /* Style the button that is used to open and close the collapsible content */
+    /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+    .collapsible:hover {
+        background-color: rgb(240, 235, 235);
+    }
+
+    /* Style the collapsible content. Note: hidden by default */
+    .content {
+        padding: 0 10px;
+        display: none;
+        overflow: hidden;
+        /* background-color: #F1F1F1; */
+    }
+</style>{% endblock inlinecss %}
+{% block content %}
+<!-- ============================================================== -->
+<!-- Start right Content here -->
+<!-- ============================================================== -->
+<div class="main-content">
+
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Add Unrecorded Asset</h4>
+
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Assets</a></li>
+                                <li class="breadcrumb-item active">Manage</li>
+                                <li class="breadcrumb-item active">Add New Asset</li>
+                            </ol>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+            <form class="needs-validation" method="POST" action="{% url 'addproduct' %}" enctype="multipart/form-data"
+                novalidate>
+
+                <div class="row">
+                    <div class="col-xl-8">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Add new assets</h4>
+                                <p class="card-title-desc">Add new/unrecorded assets in the system by using the form
+                                    below.
+                                </p>
+                                {% for message in messages %}
+                                {%if message.tags == 'error' %}
+                                <div class="alert alert-danger alert-dismissible fade show" id="messagediv"
+                                    role="alert">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close"
+                                        id="btnclose">&times;</a>
+                                    </button>
+                                    {{ message }}
+                                </div>
+                                {%else%}
+                                <div class="alert alert-{{message.tags}} alert-dismissible fade show" id="messagediv"
+                                    role="alert">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close"
+                                        id="btnclose">&times;</a>
+                                    </button>
+                                    {{ message }}
+                                </div>
+                                {%endif%}
+                                {% endfor %}
+
+                                {% csrf_token %}
+                                <div class="row">
+                                    <!-- name -->
+                                    <div class="mb-3 position-relative">
+                                        <label class="form-label" for="validationTooltip01">Name</label>
+                                        <input type="text" class="form-control" id="validationTooltip01"
+                                            placeholder="Name of asset" name="name" required>
+                                    </div>
+                                    <div class="mb-3 position-relative">
+                                        <label class="form-label" id="validationTooltip01" placeholder="Select a Pool"
+                                            for="validationTooltip01" required>Select a Pool</label>
+                                        <select class="form-control" id="parent-select" name="pool">
+                                            <option value="">Select a Pool</option>
+                                            <option value="A">A</option>
+                                            <option value="B">B</option>
+                                            <option value="C">C</option>
+                                            <option value="D">D</option>
+                                            <option value="E">E</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3 position-relative">
+                                        <div class="form-group nested-dropdown">
+                                            <label for="child-select">Subcategory</label>
+                                            <select class="form-control" id="child-select" name="categoryvalue">
+                                                <option value="">Select a Subcategory</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- supporting gears -->
+                                    <div class="mb-3 position-relative">
+                                        <label class="form-label" id="validationTooltip01"
+                                            placeholder="Enter Supporting Gearss" for="validationTooltip01">Supporting
+                                            Gears (if any)</label>
+                                        <textarea class="form-control" id="validationTooltip01" rows="3"
+                                            name="gears"></textarea>
+                                    </div>
+
+                                    <!-- Quantity -->
+                                    <div class="mb-3 position-relative">
+                                        <label class="form-label" id="validationTooltip01"
+                                            placeholder="Enter Quantity">Quantity (In a set)</label>
+
+                                        <input class="form-control" type="number" value="1" id="validationTooltip01"
+                                            name="quantity" min="1" max="1" required>
+
+                                    </div>
+
+                                    <!-- Rate Per Unit -->
+                                    <div class="mb-3 position-relative">
+                                        <label class="form-label" id="validationTooltip01" placeholder="Enter Rate">Rate
+                                            (Per Unit)</label>
+
+                                        <input class="form-control" type="number" value="" id="validationTooltip01"
+                                            name="rate" required>
+
+                                    </div>
+
+                                    <!-- date of purchase-->
+                                    <div class="mb-3 position-relative">
+                                        <label class="form-label" id="validationTooltip01"
+                                            placeholder="Enter Date of Purchase" for="validationTooltip01" required>Date
+                                            of Purchase</label>
+                                        <input class="form-control" type="date" value="" id="example-date-input"
+                                            name="dateofp" required>
+                                    </div>
+
+                                    <!-- location of assets -->
+                                    <div class="mb-3 position-relative">
+                                        <label class="form-label" id="validationTooltip01"
+                                            placeholder="Select Asset's Location" for="validationTooltip01"
+                                            required>Select Asset's Location</label>
+                                        <select class="form-select" name="location" required>
+                                            {% for location in locations%}
+                                            {%if location.status == 'true' %}
+                                            <option value="{{location.location_name}}">{{location.location_name}}
+                                            </option>
+                                            {%endif%}
+                                            {% endfor%}
+                                        </select>
+                                    </div>
+
+                                    <!-- current possesion -->
+                                    <div class="mb-3 position-relative">
+                                        <label class="form-label" id="validationTooltip01"
+                                            placeholder="Select Current Possesion" for="validationTooltip01"
+                                            required>Currently Possesed by</label>
+                                        <select class="form-select" name="currentpossesion">
+                                            <option selected value="">None</option>
+                                            {% for user in totalusers%}
+                                            {%if user.status == 'true' %}
+                                            <option value="{{user.username}}">{{user.fullname}}</option>
+                                            {%endif%}
+                                            {% endfor%}
+                                        </select>
+                                    </div>
+
+
+                                    <!-- vendor's name -->
+                                    <div class="mb-3 position-relative">
+                                        <label class="form-label" for="validationTooltip01">Vendor</label>
+                                        <select class="form-select" name="vendor" required>
+                                            {% for vendor in totalvendors%}
+                                            {%if vendor.status == 'true' %}
+                                            <option value="{{vendor.vendor_no}}">{{vendor.name_of_vendor}}</option>
+                                            {%endif%}
+                                            {% endfor%}
+                                        </select>
+                                    </div>
+
+
+                                    <!-- condition of assets -->
+                                    <div class="mb-3 position-relative">
+                                        <label class="form-label" id="validationTooltip01"
+                                            placeholder="Select Condition of asset" for="validationTooltip01"
+                                            required>Select Condition of Asset</label>
+                                        <select class="form-select" name="condition" required>
+                                            <option>Good</option>
+                                            <option>Requires Repair</option>
+                                            <option>Sold</option>
+                                            <option>Unusable</option>
+                                            <option>Lost</option>
+                                        </select>
+                                    </div>
+
+
+                                    <!-- Purpose of Assets -->
+                                    <div class="mb-3 position-relative">
+                                        <label class="form-label" for="validationTooltip01">Purpose of Use</label>
+                                        <input type="text" class="form-control" id="validationTooltip01"
+                                            placeholder="Type the purpose" name="purpose" required>
+
+                                    </div>
+
+
+                                    <!-- date of update-->
+                                    <div class="mb-3 position-relative">
+                                        <label class="form-label" id="validationTooltip01"
+                                            placeholder="Enter Date of Update" for="validationTooltip01" required>Date
+                                            of Update</label>
+                                        <input class="form-control" type="date" value="" name="dateofupdate">
+                                    </div>
+
+
+                                    <!-- image -->
+                                    <div class="mb-3 position-relative">
+                                        <label cclass="form-label" id="validationTooltip01"
+                                            placeholder="Upload assets image(s)" for="validationTooltip01">Upload
+                                            Image</label>
+                                        {{i_form.images}}
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!-- Submit Form -->
+                            <div class="text-center">
+                                <button class="btn btn-primary" type="submit">Record Asset</button>
+                            </div>
+                            <br />
+                        </div>
+                    </div>
+                    <!-- end card -->
+                    <div class="col-xl-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="mb-3 position-relative">
+                                    <button type="button" class="btn btn-outline collapsible "><i
+                                            class=" mdi mdi-account-plus"></i>
+                                        Add Specifications</button>
+                                    <div class="content card">
+                                        <!-- Brand -->
+                                        <div class="mb-3 position-relative">
+                                            <label class="form-label" id="validationTooltip01"
+                                                placeholder="Enter Brand">Brand</label>
+                                            <input class="form-control" type="text" id="validationTooltip01"
+                                                name="brand">
+                                        </div>
+                                        <!-- Model number -->
+                                        <div class="mb-3 position-relative">
+                                            <label class="form-label" id="validationTooltip01"
+                                                placeholder="Enter Model Number">Model
+                                                Number</label>
+                                            <input class="form-control" type="tel" id="validationTooltip01"
+                                                name="model">
+                                        </div>
+                                        <!-- Year of Manafacture -->
+                                        <div class="mb-3 position-relative">
+                                            <label class="form-label" id="validationTooltip01"
+                                                placeholder="Enter Year of Manafacture">Year of Manafacture</label>
+                                            <input class="form-control" type="date" id="validationTooltip01"
+                                                name="manufacture">
+                                        </div>
+                                        <!-- Size -->
+                                        <div class="mb-3 position-relative">
+                                            <label class="form-label" id="validationTooltip01"
+                                                placeholder="Enter the size">Size</label>
+                                            <input class="form-control" type="text" id="validationTooltip01"
+                                                name="size">
+                                        </div>
+                                        <!-- Warranty Period -->
+                                        <div class="mb-3 position-relative">
+                                            <label class="form-label" id="validationTooltip01"
+                                                placeholder="Enter the warranty period in years">Warranty Period (In
+                                                years)</label>
+                                            <input class="form-control" type="text" id="validationTooltip01"
+                                                name="warranty">
+                                        </div>
+                                        <!-- Warranty Period -->
+                                        <div class="mb-3 position-relative">
+                                            <label class="form-label" id="validationTooltip01"
+                                                placeholder="Enter the warranty period in years">Color</label>
+                                            <input class="form-control" type="text" id="validationTooltip01"
+                                                name="color">
+                                        </div>
+                                        <!-- Warranty Period -->
+                                        <div class="mb-3 position-relative">
+                                            <label class="form-label" id="validationTooltip01"
+                                                placeholder="Enter additional specifications">Additional
+                                                Specs</label>
+                                            <input class="form-control" type="text" id="validationTooltip01"
+                                                name="additionalspecs">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- end col -->
+            </form>
+        </div>
+        <!-- end row -->
+    </div>
+    <!-- container-fluid -->
+</div>
+<!-- End Page-content -->
+{% endblock content %}
+{% block inlinescript %}
+<script>
+    $(document).ready(function () {
+
+        $("#parent-select").change(function () {
+            if ($(this).val() === "A") {
+                $(".nested-dropdown").removeClass("d-none");
+                $("#child-select").html("<option value=''>Select a Subcategory</option><option value='Building and Structure'>Building and Structure</option>");
+            } else if ($(this).val() === "B") {
+                $(".nested-dropdown").removeClass("d-none");
+                $("#child-select").html("<option value=''>Select a Subcategory</option><option value='Furniture & Fixtures'>Furniture & Fixtures </option><option value='Computer & Accessories'>Computer & Accessories</option><option value='Office Equipment'>Office Equipment</option><option value='Electricity and Fittings'>Electricity and Fittings</option>");
+            } else if ($(this).val() === "C") {
+                $(".nested-dropdown").removeClass("d-none");
+                $("#child-select").html("<option value=''>Select a Subcategory</option><option value='Office Vehicle'>Office Vehicle</option>");
+            }
+            else if ($(this).val() === "D") {
+                $(".nested-dropdown").removeClass("d-none");
+                $("#child-select").html("<option value=''>Select a Subcategory</option><option value='Other Equipment'>Other Equipment</option>");
+            }
+            else if ($(this).val() === "E") {
+                $(".nested-dropdown").removeClass("d-none");
+                $("#child-select").html("<option value=''>Select a Subcategory</option><option value='Intangible assets'>Intangible assets</option>");
+            }
+            else {
+                $(".nested-dropdown").addClass("d-none");
+            }
+        });
+
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+        for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.display === "block") {
+                    content.style.display = "none";
+                } else {
+                    content.style.display = "block";
+                }
+            });
+        }
+    });
+</script>
+{% endblock inlinescript %}

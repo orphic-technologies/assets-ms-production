@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Edit | Vendor{% endblock title %}
+{% block content %}
+<!-- ============================================================== -->
+<!-- Start right Content here -->
+<!-- ============================================================== -->
+<div class="main-content">
+
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Edit Vendor's Details</h4>
+
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Vendors</a></li>
+                                <li class="breadcrumb-item active">Manage</li>
+                                <li class="breadcrumb-item active">Edit Vendor's Details</li>
+                            </ol>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Edit/Update Vendor's Details</h4>
+                            <p class="card-title-desc">Edit/Update the details of a vendor by using the form below.</p>
+                            {% for message in messages %}
+                            {%if message.tags == 'error' %}
+                            <div class="alert alert-danger alert-dismissible fade show" id="messagediv" role="alert">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close"
+                                    id="btnclose">&times;</a>
+                                </button>
+                                {{ message }}
+                            </div>
+                            {%else%}
+                            <div class="alert alert-{{message.tags}} alert-dismissible fade show" id="messagediv"
+                                role="alert">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close"
+                                    id="btnclose">&times;</a>
+                                </button>
+                                {{ message }}
+                            </div>
+                            {%endif%}
+                            {% endfor %}
+                            <form class="needs-validation" method="POST" action="{% url 'updatevendor' %}"
+                                enctype="multipart/form-data" novalidate>
+                                {% csrf_token %}
+                                <div class="row">
+
+                                    <div class="mb-3 position-relative">
+                                        <label for="text-input" class="col-md-2 col-form-label">Vendor's Name</label>
+                                        <div class="col-md-10">
+                                            <input class="form-control" type="text"
+                                                placeholder="Type the name of the vendor" id="name-text-input"
+                                                name="name_of_vendor" value="{{vendor.name_of_vendor}}" required>
+                                            <input type="text" name="vendor_no" value="{{vendor.vendor_no}}" hidden>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3 position-relative">
+                                        <label for="text-input" class="col-md-2 col-form-label">Vendor's Address</label>
+                                        <div class="col-md-10">
+                                            <input class="form-control" type="text" name="address"
+                                                placeholder="Type the address of the vendor" id="address-text-input"
+                                                value="{{vendor.address}}" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3 position-relative">
+                                        <label for="text-input" class="col-md-2 col-form-label">Contact Person's
+                                            Name</label>
+                                        <div class="col-md-10">
+                                            <input class="form-control" type="text" name="contact_person"
+                                                placeholder="Type the name of the vendor's contact person"
+                                                id="name-input" value="{{vendor.contact_person}}" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3 position-relative">
+                                        <label for="text-input" class="col-md-2 col-form-label">Contact Person's Phone
+                                            Number</label>
+                                        <div class="col-md-10">
+                                            <input class="form-control" type="tel" minlength="10" name="contact_no"
+                                                placeholder="Type the contact address of the vendor's contact person. Exclude (+977)"
+                                                id="example-number-input" value="{{vendor.contact_no}}" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3 position-relative">
+                                        <label for="text-input" class="col-md-2 col-form-label">Vendor's PAN/VAT
+                                            Number</label>
+                                        <div class="col-md-10">
+                                            <input class="form-control" type="tel" name="pan_no"
+                                                placeholder="Type the PAN nummber of the vendor" id="number-input"
+                                                value="{{vendor.pan_no}}" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Submit Form -->
+                                <div class="text-center">
+                                    <button class="btn btn-success" type="submit">Update</button>
+                                </div>
+                            </form>
+                            <br />
+                        </div>
+                    </div>
+                    <!-- end card -->
+                </div> <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+    {% endblock content %}

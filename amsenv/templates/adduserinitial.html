@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Select User Type | Assets MS{% endblock title %}
+{% block content %}
+<!-- ============================================================== -->
+<!-- Start right Content here -->
+<!-- ============================================================== -->
+<div class="main-content">
+
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">View Users</h4>
+
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Users</a></li>
+                                <li class="breadcrumb-item active">Select User Type</li>
+                            </ol>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <form class="needs-validation" method="POST" action="{% url 'selectusertype' %}"
+                        enctype="multipart/form-data" novalidate>
+                        {% csrf_token %}
+                        <div class="row">
+
+                            <div class="mb-3 position-relative">
+                                <label for="text-input" class="col-md-2 col-form-label">Staff</label>
+                                <div class="col-md-10">
+                                    <input type="radio" value="staff" name="user-staff">
+                                </div>
+                            </div>
+                            <div class="mb-3 position-relative">
+                                <label for="text-input" class="col-md-2 col-form-label">User/Admin</label>
+                                <div class="col-md-10">
+                                    <input type="radio" value="admin" name="user-staff">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit Form -->
+                        <div class="text-center">
+                            <button class="btn btn-primary" type="submit">Select</button>
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+    {% endblock content %}

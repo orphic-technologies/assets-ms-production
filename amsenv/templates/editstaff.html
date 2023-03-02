@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Record | Staff{% endblock title %}
+{% block content %}
+<!-- ============================================================== -->
+<!-- Start right Content here -->
+<!-- ============================================================== -->
+<div class="main-content">
+
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Edit User's Details</h4>
+
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Users</a></li>
+                                <li class="breadcrumb-item active">Manage</li>
+                                <li class="breadcrumb-item active">Edit User</li>
+                            </ol>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Edit User's Details</h4>
+                            <p class="card-title-desc">Edit the details of existing user in the system by using the form
+                                below.</p>
+                            {% for message in messages %}
+                            {%if message.tags == 'error' %}
+                            <div class="alert alert-danger alert-dismissible fade show" id="messagediv" role="alert">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close"
+                                    id="btnclose">&times;</a>
+                                </button>
+                                {{ message }}
+                            </div>
+                            {%else%}
+                            <div class="alert alert-{{message.tags}} alert-dismissible fade show" id="messagediv"
+                                role="alert">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close"
+                                    id="btnclose">&times;</a>
+                                </button>
+                                {{ message }}
+                            </div>
+                            {%endif%}
+                            {% endfor %}
+                            <form class="needs-validation" method="POST" action="{% url 'updatestaff' %}"
+                                enctype="multipart/form-data" novalidate>
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="mb-3 position-relative">
+                                        <label for="text-input" class="col-md-2 col-form-label">User's Full Name</label>
+                                        <div class="col-md-10">
+                                            <input class="form-control" type="text"
+                                                placeholder="Type the name of the user" name="fullname"
+                                                value="{{user.fullname}}" id="name-text-input" required>
+                                            <input class="form-control" type="text"
+                                                placeholder="Type the name of the user" name="id" value="{{user.id}}"
+                                                id="name-text-input" hidden>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 position-relative">
+                                        <label for="text-input" class="col-md-2 col-form-label">Current Position</label>
+                                        <div class="col-md-10">
+                                            <input class="form-control" type="text"
+                                                placeholder="Type the current position of the user"
+                                                name="currentposition" id="name-text-input"
+                                                value="{{user.current_position}}" required>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 position-relative">
+                                        <label for="text-input" class="col-md-2 col-form-label">User Type</label>
+                                        <div class="col-md-10">
+                                            <input class="form-control" type="text" id="name-text-input" name="access"
+                                                value="staff">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Submit Form -->
+                                <div class="text-center">
+                                    <button class="btn btn-success" type="submit">Update User</button>
+                                </div>
+                            </form>
+                            <br />
+                        </div>
+                    </div>
+                    <!-- end card -->
+                </div> <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+    {% endblock content %}

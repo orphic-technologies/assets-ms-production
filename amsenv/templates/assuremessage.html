@@ -1,0 +1,266 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Read | Assets MS{% endblock title %}
+{% block content %}
+{% block inlinecss %}
+{% endblock inlinecss %}
+<!-- ============================================================== -->
+<!-- Start right Content here -->
+<!-- ============================================================== -->
+<div class="main-content">
+
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Assure Message</h4>
+
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item active">Assure</li>
+                            </ol>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+            <!-- end page title -->
+            {% if restore %}
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Restore ?</h4>
+                            {%if assetinfo%}
+                            <p class="card-title-desc">Are you sure you want to restore {{assetinfo}} ?</p>
+                            {%elif vendorinfo%}
+                            <p class="card-title-desc">Are you sure you want to restore {{vendorinfo}} ?</p>
+                            {%elif locationname%}
+                            <p class="card-title-desc">Are you sure you want to restore {{locationname}} ?</p>
+                            {%else%}
+                            <p class="card-title-desc">Are you sure you want to restore {{fullname}} ?</p>
+                            {%endif%}
+
+                            <div class="table-responsive">
+                                <table class="table table-striped mb-0" style="width: 18%;">
+                                    <tbody>
+                                        {%if assetinfo%}
+                                        <tr>
+                                            <td>
+                                                <form method="POST" action="{% url 'deletedassets' %}"
+                                                    style="border:none">
+                                                    {% csrf_token %}
+                                                    <input type="text" value="{{assetinfo}}" name="code-restore" hidden>
+                                                    <button type="submit" class="btn btn-success btn-sm m-1"
+                                                        style="width: 100%;">Yes</button>
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <form method="POST" action="{% url 'deletedassets' %}">
+                                                    {% csrf_token %}
+
+                                                    <button type="submit" class="btn btn-danger btn-sm m-1"
+                                                        style="width: 100%;">No</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        {%elif vendorinfo%}
+                                        <tr>
+                                            <td>
+                                                <form method="POST" action="{% url 'deletedvendor' %}"
+                                                    style="border:none">
+                                                    {% csrf_token %}
+                                                    <input type="text" value="{{vendorinfo}}" name="code-restore"
+                                                        hidden>
+                                                    <button type="submit" class="btn btn-success btn-sm m-1"
+                                                        style="width: 100%;">Yes</button>
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <form method="POST" action="{% url 'deletedvendor' %}">
+                                                    {% csrf_token %}
+
+                                                    <button type="submit" class="btn btn-danger btn-sm m-1"
+                                                        style="width: 100%;">No</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        {%elif locationname%}
+                                        <tr>
+                                            <td>
+                                                <form method="POST" action="{% url 'locationdelete' %}"
+                                                    style="border:none">
+                                                    {% csrf_token %}
+                                                    <input type="text" value="{{locationname}}" name="code-restore"
+                                                        hidden>
+                                                    <input type="text" value="{{locationid}}" name="locationid" hidden>
+                                                    <button type="submit" class="btn btn-success btn-sm m-1"
+                                                        style="width: 100%;">Yes</button>
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <form method="POST" action="{% url 'locationdelete' %}">
+                                                    {% csrf_token %}
+
+                                                    <button type="submit" class="btn btn-danger btn-sm m-1"
+                                                        style="width: 100%;">No</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        {%else%}
+                                        <tr>
+                                            <td>
+                                                <form method="POST" action="{% url 'deleteduser' %}"
+                                                    style="border:none">
+                                                    {% csrf_token %}
+                                                    <input type="text" value="{{id}}" name="id-restore" hidden>
+                                                    <input type="text" value="{{fullname}}" name="fullname" hidden>
+                                                    <button type="submit" class="btn btn-success btn-sm m-1"
+                                                        style="width: 100%;">Yes</button>
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <form method="POST" action="{% url 'deleteduser' %}">
+                                                    {% csrf_token %}
+
+                                                    <button type="submit" class="btn btn-danger btn-sm m-1"
+                                                        style="width: 100%;">No</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        {%endif%}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end card -->
+                </div> <!-- end col -->
+            </div>
+            <!-- end row -->
+            {%else%}
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Delete Permanently ?</h4>
+                            {%if assetinfo%}
+                            <p class="card-title-desc">Are you sure you want to delete {{assetinfo}} ?</p>
+                            {%elif vendorinfo%}
+                            <p class="card-title-desc">Are you sure you want to delete {{vendorinfo}} ?</p>
+                            {%elif locationname%}
+                            <p class="card-title-desc">Are you sure you want to delete {{locationname}} ?</p>
+                            {%else%}
+                            <p class="card-title-desc">Are you sure you want to delete {{fullname}} ?</p>
+                            {%endif%}
+
+                            <div class="table-responsive">
+                                <table class="table table-striped mb-0" style="width: 18%;">
+                                    <tbody>
+                                        {%if assetinfo%}
+                                        <tr>
+                                            <td>
+                                                <form method="POST" action="{% url 'deletedassets' %}"
+                                                    style="border:none">
+                                                    {% csrf_token %}
+                                                    <input type="text" value="{{assetinfo}}" name="code" hidden>
+                                                    <button type="submit" class="btn btn-success btn-sm m-1"
+                                                        style="width: 100%;">Yes</button>
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <form method="POST" action="{% url 'deletedassets' %}">
+                                                    {% csrf_token %}
+
+                                                    <button type="submit" class="btn btn-danger btn-sm m-1"
+                                                        style="width: 100%;">No</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        {%elif vendorinfo%}
+                                        <tr>
+                                            <td>
+                                                <form method="POST" action="{% url 'deletedvendor' %}"
+                                                    style="border:none">
+                                                    {% csrf_token %}
+                                                    <input type="text" value="{{vendorinfo}}" name="code" hidden>
+                                                    <button type="submit" class="btn btn-success btn-sm m-1"
+                                                        style="width: 100%;">Yes</button>
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <form method="POST" action="{% url 'deletedvendor' %}">
+                                                    {% csrf_token %}
+
+                                                    <button type="submit" class="btn btn-danger btn-sm m-1"
+                                                        style="width: 100%;">No</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        {%elif locationname%}
+                                        <tr>
+                                            <td>
+                                                <form method="POST" action="{% url 'locationdelete' %}"
+                                                    style="border:none">
+                                                    {% csrf_token %}
+                                                    <input type="text" value="{{locationname}}" name="code" hidden>
+                                                    <input type="text" value="{{locationid}}" name="locationid" hidden>
+                                                    <button type="submit" class="btn btn-success btn-sm m-1"
+                                                        style="width: 100%;">Yes</button>
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <form method="POST" action="{% url 'locationdelete' %}">
+                                                    {% csrf_token %}
+
+                                                    <button type="submit" class="btn btn-danger btn-sm m-1"
+                                                        style="width: 100%;">No</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        {%else%}
+                                        <tr>
+                                            <td>
+                                                <form method="POST" action="{% url 'deleteduser' %}"
+                                                    style="border:none">
+                                                    {% csrf_token %}
+                                                    <input type="text" value="{{id}}" name="id" hidden>
+                                                    <input type="text" value="{{fullname}}" name="fullname" hidden>
+                                                    <button type="submit" class="btn btn-success btn-sm m-1"
+                                                        style="width: 100%;">Yes</button>
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <form method="POST" action="{% url 'deleteduser' %}">
+                                                    {% csrf_token %}
+
+                                                    <button type="submit" class="btn btn-danger btn-sm m-1"
+                                                        style="width: 100%;">No</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        {%endif%}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end card -->
+                </div> <!-- end col -->
+            </div>
+            <!-- end row -->
+            {%endif%}
+        </div>
+        <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+    {% endblock content %}
+    {% block inlinescript %}
+    <script>
+
+    </script>
+    {% endblock inlinescript %}

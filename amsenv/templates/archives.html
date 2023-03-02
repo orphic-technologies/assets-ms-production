@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Assigned | Assets MS{% endblock title %}
+{% block content %}
+<!-- ============================================================== -->
+<!-- Start right Content here -->
+<!-- ============================================================== -->
+<div class="main-content">
+
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Used Assets</h4>
+
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Assets</a></li>
+                                <li class="breadcrumb-item active">Used Assets</li>
+                            </ol>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="row">
+                    <!-- App Search-->
+                    <div class="col-xl-8">
+                        <form method="GET" action="{% url 'archives' %}" class="app-search d-none d-lg-block">
+
+                            <div class="position-relative">
+                                <input name="query" type="text" class="form-control input" placeholder="Search...">
+                                <span class="ri-search-line"></span>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="col-xl-3">
+                        <form method="POST" action="{% url 'archives' %}" class="app-search d-none d-lg-block">
+
+                            <div class="position-relative">
+                                <input type="text" value="all" name="all" hidden>
+                                <button type="submit" class="btn btn-outline-success btn-sm m-2">Go Back</button>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="col-xl-1">
+                        <div class=" app-search d-none d-lg-block">
+                            <form method="GET" action="{% url 'download_file' %}">
+                                <div class="position-relative">
+                                    <button class="btn bg-white btn-light mx-1px text-95" data-title="PDF">
+                                        <input name="query" type="text" value='{{queryvalue}}' hidden>
+                                        Export
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if page_obj%}
+            <!-- end page title -->
+            <div class="row">
+                <div class="col-lg-12">
+
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title mb-4">Archives</h4>
+
+                            <div class="table-responsive">
+                                <table class="table table-centered table-nowrap mb-0">
+                                    <thead>
+                                        <tr>
+
+                                            <th scope="col">Assigned to</th>
+                                            <th scope="col">Assigned by</th>
+                                            <th scope="col">Released by</th>
+                                            <th scope="col" colspan="3">Assets</th>
+                                            <th scope="col">Assigned Date</th>
+                                            <th scope="col">Due Date</th>
+                                            <th scope="col">Returned Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for tokens, queryset in page_obj %}
+                                        <tr>
+                                            <td>
+                                                {%for query in queryset|slice:":1" %}
+
+                                                <h5 class="font-size-15 mb-0">{{query.nameofstaffreturningasset}}</h5>
+
+                                                {%endfor%}
+                                            </td>
+                                            <td>
+                                                {%for query in queryset|slice:":1"%}
+                                                <h5 class="font-size-15 mb-0">{{query.asset_verified_by}}</h5>
+
+                                                {%endfor%}
+                                            </td>
+                                            <td>
+                                                {%for query in queryset|slice:":1"%}
+                                                <h5 class="font-size-15 mb-0">{{query.asset_release_by}}</h5>
+
+                                                {%endfor%}
+                                            </td>
+                                            <td colspan="3">
+                                                <div class="row">
+                                                    {%for query in queryset%}
+                                                    <div class="col-sm-4">
+                                                        <h5 class="font-size-15 mb-0">{{query.asset_name}}</h5>
+                                                        <p class="mb-1 font-size-12">{{query.asset_code}}</p>
+                                                    </div>
+                                                    {%endfor%}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                {%for query in queryset|slice:":1"%}
+                                                <h5 class="font-size-15 mb-0">{{query.asset_issued_in}}</h5>
+                                                {%endfor%}
+                                            </td>
+                                            <td>
+                                                {%for query in queryset|slice:":1"%}
+                                                <h5 class="font-size-15 mb-0">
+                                                    {{query.expected_date_of_return_of_such_asset}}</h5>
+
+                                                {%endfor%}
+                                            </td>
+                                            <td>
+                                                {%for query in queryset|slice:":1"%}
+                                                <h5 class="font-size-15 mb-0">{{query.date_of_return}}</h5>
+
+                                                {%endfor%}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- end card-body -->
+                    </div>
+                    <!-- end card -->
+                    <div id="beforeRemovePag">
+                        <nav aria-label="Page navigation example" class="removePag">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item">
+                                    {% if page_obj.has_previous %}
+                                    <a class="page-link" tabindex="-1"
+                                        href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                                    {% endif %}
+                                </li>
+                                <li class="page-item"><a class="page-link" href="#">{{page_obj.number }}
+                                        of
+                                        {{ page_obj.paginator.num_pages }}</a></li>
+                                <li class="page-item">
+                                    {% if page_obj.has_next %}
+                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                                    {% endif %}
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <!-- end col -->
+            </div>
+            <!-- end row -->
+            {%else%}
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Empty!</h4>
+
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+        <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+    {% endblock content %}

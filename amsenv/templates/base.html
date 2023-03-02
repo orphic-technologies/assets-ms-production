@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+{% load static %}
+
+
+<head>
+    <meta charset="utf-8" />
+    <title>{% block title %}{% endblock title %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% block csspart %}
+    <!-- Assets-MS favicon -->
+    <link rel="shortcut icon" href="{% static 'assets/images/favicon.ico' %}">
+    <!-- Bootstrap CSS -->
+    <link href="{% static 'assets/css/bootstrap.min.css' %}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <!-- Icons CSS -->
+    <link href="{% static 'assets/css/icons.min.css' %}" rel="stylesheet" type="text/css" />
+    <!-- App CSS -->
+    <link href="{% static 'assets/css/app.min.css' %}" id="app-style" rel="stylesheet" type="text/css" />
+    {% endblock csspart %}
+    {% block inlinecss %} {% endblock inlinecss %}
+
+</head>
+
+<body data-sidebar="dark">
+    <!-- Begin page -->
+    <div id="layout-wrapper">
+        {% block panel%}
+        <header id="page-topbar">
+            <div class="navbar-header">
+                <div class="d-flex">
+                    <!-- LOGO -->
+                    <div class="navbar-brand-box text-center">
+                        <a href="#" class="logo logo-light">
+                            <span class="logo-sm">
+                                <img src="{% static 'assets/images/logo.jfif' %}" alt="logo-sm-light" height="22">
+                            </span>
+                            <span class="logo-lg">
+                                <img src="{% static 'assets/images/logo.jfif' %}" alt="logo-light" height="50">
+                            </span>
+                        </a>
+                    </div>
+
+                    <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect"
+                        id="vertical-menu-btn">
+                        <i class="ri-menu-2-line align-middle"></i>
+                    </button>
+
+
+                </div>
+
+                <div class="d-flex">
+
+                    <div class="dropdown d-inline-block d-lg-none ms-2">
+                        <button type="button" class="btn header-item noti-icon waves-effect"
+                            id="page-header-search-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            <i class="ri-search-line"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
+                            aria-labelledby="page-header-search-dropdown">
+                        </div>
+                    </div>
+                    <div class="dropdown d-none d-lg-inline-block ms-1">
+                        <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
+                            <i class="ri-fullscreen-line"></i>
+                        </button>
+                    </div>
+                    {% block selectedasset %} {% endblock selectedasset %}
+                    <div class="dropdown d-inline-block user-dropdown">
+                        <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
+                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {%if 'superadmin' == request.session.access%}
+                            <img class="rounded-circle header-profile-user"
+                                src="{% static 'assets/images/users/admin.jpg' %}" alt="Header Avatar">
+                            <span class="d-none d-xl-inline-block ms-1">Admin | {{request.session.fullname}}</span>
+                            {%else%}
+                            <img class="rounded-circle header-profile-user"
+                                src="{% static 'assets/images/users/user.png' %}" alt="Header Avatar">
+                            <span class="d-none d-xl-inline-block ms-1">User | {{request.session.fullname}}</span>
+                            {%endif%}
+                            <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <!-- item-->
+                            <a class="dropdown-item text-danger" href="{% url 'logout' %}"><i
+                                    class="ri-shut-down-line align-middle me-1 text-danger"></i> Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+
+        <!-- ========== Left Sidebar Start ========== -->
+        <div class="vertical-menu">
+
+            <div data-simplebar class="h-100">
+
+                <!--- Sidemenu -->
+                <div id="sidebar-menu">
+                    <!-- Left Menu Start -->
+                    <ul class="metismenu list-unstyled" id="side-menu">
+                        <li class="menu-title">Menu</li>
+
+                        <li>
+                            <a href="{% url 'home' %}" class="waves-effect">
+                                <i class="mdi mdi-home-variant-outline"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <!-- Assets -->
+                        <li class="menu-title">Assets</li>
+
+                        <li>
+                            <a href="{% url 'search' %}" class=" waves-effect">
+                                <i class="ri-search-line"></i>
+                                <span>Search</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'usedassets' %}" class=" waves-effect">
+                                <i class="ri-close-circle-line"></i>
+                                <span>Assigned Assets</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'availableassets' %}" class=" waves-effect">
+                                <i class="ri-checkbox-circle-line"></i>
+                                <span>Available Assets</span>
+                            </a>
+                        </li>
+
+                        {%if 'superadmin' == request.session.access%}
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="mdi mdi-briefcase-variant-outline"></i>
+                                <span>Manage Assets</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li><a href="{% url 'addproduct' %}">Add New Asset</a></li>
+                                <li><a href="{% url 'readasset' %}">Asset Details</a></li>
+                                <li><a href="{% url 'deletedassets' %}">Trash</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="mdi mdi-briefcase-variant-outline"></i>
+                                <span>Manage Locations</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li><a href="{% url 'locationadd' %}">Add New Location</a></li>
+                                <li><a href="{% url 'locationread' %}">Location Details</a></li>
+                                <li><a href="{% url 'locationdelete' %}">Trash</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="{% url 'repairmantain' %}" class="waves-effect">
+                                <i class="mdi mdi-backup-restore"></i>
+                                <span>Repair & Maintainence</span>
+                            </a>
+                        </li>
+                        <!-- User -->
+                        <li class="menu-title">User</li>
+
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="mdi mdi-animation"></i>
+                                <span>Manage Users</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li><a href="{% url 'readuser' %}">User Details</a></li>
+                                <li><a href="{% url 'deleteduser' %}">Trash</a></li>
+                            </ul>
+                        </li>
+
+
+                        <li>
+                            <a href="{% url 'selectusertype' %}" class=" waves-effect">
+                                <i class="mdi mdi-account-plus"></i>
+                                <span>Add New User</span>
+                            </a>
+                        </li>
+                        <!-- Vendors -->
+                        <li class="menu-title">Vendors</li>
+
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <i class="mdi mdi-animation"></i>
+                                <span>Manage</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li><a href="{% url 'readvendor' %}">Vendor Details</a></li>
+                                <li><a href="{% url 'deletedvendor' %}">Trash</a></li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'addvendor' %}" class=" waves-effect">
+                                <i class="mdi mdi-basket-plus"></i>
+                                <span>Add Vendor</span>
+                            </a>
+                        </li>
+
+                        <!-- Archive -->
+                        <li class="menu-title">Archives</li>
+
+                        <li>
+                            <a href="{% url 'archives' %}" class="waves-effect">
+                                <i class="mdi mdi-archive"></i>
+                                <span>Transaction of Assets</span>
+                            </a>
+                        </li>
+
+                        {%endif%}
+                    </ul>
+                </div>
+                <!-- Sidebar -->
+            </div>
+        </div>
+        <!-- Left Sidebar End -->
+        {% endblock panel%}
+
+
+        <!-- ============================================================== -->
+        <!-- Start right Content here -->
+        <!-- ============================================================== -->
+        {% block content %} {% endblock content %}
+        <!-- END layout-wrapper -->
+        {% block footer%}
+        <footer class="footer">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <script>document.write(new Date().getFullYear())</script> © <a href="https://orphictech.com"
+                            target="_blank">Orphic</a>
+                    </div>
+
+                </div>
+            </div>
+        </footer>
+        {%endblock footer%}
+
+    </div>
+
+
+    {%block script%}
+    <!-- JAVASCRIPT -->
+    <script src="{% static 'assets/libs/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/libs/metismenu/metisMenu.min.js' %}"></script>
+    <script src="{% static 'assets/libs/simplebar/simplebar.min.js' %}"></script>
+    <script src="{% static 'assets/libs/node-waves/waves.min.js' %}"></script>
+    <script src="{% static 'assets/libs/jquery-cookie/jquery.cookie.min.js' %}"></script>
+    <script src="{% static 'assets/libs/jquery-cookie-monster/jquery-cookie-monster.js' %}"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
+    <!-- parsleyjs -->
+    <script src="{% static 'assets/libs/parsleyjs/parsley.min.js' %}"></script>
+    <!-- validation init -->
+    <script src="{% static 'assets/js/pages/form-validation.init.js' %}"></script>
+    <script src="{% static 'assets/js/action.js' %}"></script>
+    <script src="{% static 'assets/js/manageavailable.js' %}"></script>
+    <script src="{% static 'assets/js/managerelease.js' %}"></script>
+    <script src="{% static 'assets/js/remove-selected-asset.js' %}"></script>
+
+    <!-- <script src="https://code.highcharts.com/highcharts.src.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="{% static 'assets/js/chartcode.js' %}"></script> -->
+    <script>
+        if (document.getElementById("btnclose")) {
+            const targetDiv = document.getElementById("messagediv");
+            const btn = document.getElementById("btnclose");
+            btn.onclick = function () {
+                if (targetDiv.style.display !== "none") {
+                    targetDiv.style.display = "none";
+                }
+            }
+        };
+    //- -----------
+    </script>
+    {%endblock script%}
+    {% block inlinescript %} {% endblock inlinescript %}
+
+</body>
+
+</html>

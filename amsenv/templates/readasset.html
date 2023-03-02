@@ -1,0 +1,254 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Read | Assets MS{% endblock title %}
+{% block content %}
+{% block inlinecss %}
+{% endblock inlinecss %}
+<!-- ============================================================== -->
+<!-- Start right Content here -->
+<!-- ============================================================== -->
+<div class="main-content">
+
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">View Vendors</h4>
+
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Assets</a></li>
+                                <li class="breadcrumb-item active">Manage</li>
+                                <li class="breadcrumb-item active">View Assets</li>
+                            </ol>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+            <!-- end page title -->
+            <div class="row">
+                <div class="row">
+                    <!-- App Search-->
+                    <div class="col-xl-8">
+                        <form method="GET" action="{% url 'readasset' %}" class="app-search d-none d-lg-block">
+
+                            <div class="position-relative">
+                                <input name="query" type="text" class="form-control input" placeholder="Search...">
+                                <span class="ri-search-line"></span>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="col-xl-3">
+                        <form method="POST" action="{% url 'readasset' %}" class="app-search d-none d-lg-block">
+
+                            <div class="position-relative">
+                                <input type="text" value="all" name="all" hidden>
+                                <button type="submit" class="btn btn-outline-success btn-sm m-2">Go Back</button>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="col-xl-1">
+                        <div class=" app-search d-none d-lg-block">
+                            <form method="POST" action="{% url 'download_file' %}">
+                                <div class="position-relative">
+                                    <button class="btn bg-white btn-light mx-1px text-95" data-title="PDF">
+                                        <input name="query" type="text" value='{{queryvalue}}' hidden>
+                                        Export
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% for message in messages %}
+            {%if message.tags == 'error' %}
+            <div class="alert alert-danger alert-dismissible fade show" id="messagediv" role="alert">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close" id="btnclose">&times;</a>
+                </button>
+                {{ message }}
+            </div>
+            {%else%}
+            <div class="alert alert-{{message.tags}} alert-dismissible fade show" id="messagediv" role="alert">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close" id="btnclose">&times;</a>
+                </button>
+                {{ message }}
+            </div>
+            {%endif%}
+            {% endfor %}
+            <!-- end page title -->
+            {% if page_obj%}
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">View Assets</h4>
+                            <p class="card-title-desc">The list of the assets that have been added in the system are
+                                shown below.</p>
+
+                            <div class="table-responsive">
+                                <table class="table table-striped mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Asset Details</th>
+                                            <th>Images</th>
+                                            <th>Possession Details</th>
+                                            <th>Specifications</th>
+                                            <th>Purchase Details</th>
+                                            <th>Other Details</th>
+                                            <th></th>
+                                            <th></th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {%for asset in page_obj%}
+                                        <tr>
+                                            <td>
+                                                <p class="mb-1 font-size-12">{{asset.asset_code}}</p>
+                                                <h5 class="font-size-12 mb-0">{{asset.name_of_asset}}</h5>
+                                                {%if asset.availale_status == 'true' %}
+                                                <p class="mb-1 font-size-12">status: available</p>
+                                                {%else%}
+                                                <p class="mb-1 font-size-12">status: not-available</p>
+                                                {%endif%}
+                                            </td>
+                                            <td>
+                                                {% for image in asset.image_set.all%}
+                                                <img class="img asset-thumbnail" src="{{image.images.url}}" alt="" />
+                                                {% empty %}
+                                                <img class="img asset-thumbnail"
+                                                    src="{% static 'assets/images/users/noimage.jpg' %}" alt="" />
+
+                                                {% endfor %}
+                                            </td>
+                                            <td>
+                                                <p class="mb-1 font-size-12"><b>Pool: </b>{{asset.assets_pool}}</p>
+                                                <h5 class="font-size-12 mb-1"><b>Category:
+                                                    </b>{{asset.product_category}}</h5>
+                                                <h5 class="font-size-15 mb-1"><b>Location: </b>{{asset.asset_location}}
+                                                </h5>
+                                                <h5 class="font-size-15 mb-1"><b>Purpose: </b>{{asset.purpose_of_asset}}
+                                                </h5>
+                                                <h5 class="font-size-15 mb-1"><b>Possessed By:<br>
+                                                        {% for users in asset.user.all %}
+                                                    </b>{{users.fullname}} <br>
+                                                    {%endfor%}
+                                                </h5>
+
+                                            </td>
+                                            <td>
+                                                <p class="mb-1 font-size-12"><b>Model no:
+                                                    </b>{{asset.specifications.Model_no}}</p>
+                                                <h5 class="font-size-12 mb-1"><b>Brand:
+                                                    </b>{{asset.specifications.brand}}</h5>
+                                                <p class="mb-1 font-size-12"><b>Mfd Year:
+                                                    </b>{{asset.specifications.year_of_manufacture}}</p>
+                                                <p class="mb-1 font-size-12"><b>Color:
+                                                    </b>{{asset.specifications.color}}</p>
+                                                <p class="mb-1 font-size-12"><b>Size: </b>{{asset.specifications.size}}
+                                                </p>
+                                                <p class="mb-1 font-size-12"><b>Warranty:
+                                                    </b>{{asset.specifications.warranty_period}}</p>
+                                                <p class="mb-1 font-size-12"><b>Other:
+                                                    </b>{{asset.specifications.other_specs}}</p>
+
+
+                                            </td>
+                                            <td>
+                                                <p class="mb-1 font-size-12"><b>Purchase Date:
+                                                    </b>{{asset.date_of_purchase}}</p>
+                                                <h5 class="font-size-12 mb-1"><b>Rate per-unit:
+                                                    </b>{{asset.rate_per_unit}}</h5>
+                                                <p class="mb-1 font-size-12"><b>Purchased from:
+                                                    </b>{{asset.vendor}}</p>
+                                            </td>
+
+                                            <td>
+                                                <p class="mb-1 font-size-12"><b>Supporting Gears:
+                                                    </b>{{asset.supporting_gear}}</p>
+                                                <h5 class="font-size-12 mb-1"><b>Condition:
+                                                    </b>{{asset.condition_of_asset}}
+                                                </h5>
+                                                <p class="mb-1 font-size-12"><b>Update Date:
+                                                    </b>{{asset.date_of_update}}
+                                                </p>
+                                                <p class="mb-1 font-size-12"><b>Repaired Approved By:
+                                                    </b>{{asset.updated_by}}
+                                                </p>
+                                            </td>
+                                            <td>
+                                                <form method="POST" action="{% url 'readasset' %}" style="border:none">
+                                                    {% csrf_token %}
+                                                    <input type="text" value="{{asset.asset_code}}" name="asset_code"
+                                                        hidden>
+                                                    <button type="submit"
+                                                        class="btn btn-outline-success btn-sm m-1">Edit</button>
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <form method="POST" action="{% url 'deleteasset' %}">
+                                                    {% csrf_token %}
+                                                    <input type="text" value="{{asset.asset_code}}" name="asset_code_c"
+                                                        hidden>
+                                                    <button type="submit"
+                                                        class="btn btn-outline-danger btn-sm m-1">Delete</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        {%endfor%}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- end card -->
+                    <div id="beforeRemovePag">
+                        <nav aria-label="Page navigation example" class="removePag">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item">
+                                    {% if page_obj.has_previous %}
+                                    <a class="page-link" tabindex="-1"
+                                        href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                                    {% endif %}
+                                </li>
+                                <li class="page-item"><a class="page-link" href="#">{{page_obj.number }}
+                                        of
+                                        {{ page_obj.paginator.num_pages }}</a></li>
+                                <li class="page-item">
+                                    {% if page_obj.has_next %}
+                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                                    {% endif %}
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div> <!-- end col -->
+            </div>
+            <!-- end row -->
+            {%else%}
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">No assets are there yet</h4>
+
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+    {% endblock content %}
+    {% block inlinescript %}
+    <script>
+
+    </script>
+    {% endblock inlinescript %}

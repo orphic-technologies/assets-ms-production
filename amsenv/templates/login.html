@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="utf-8" />
+    <title>Login - Admin & Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
+    <meta content="Themesdesign" name="author" />
+    <!-- App favicon -->
+    {% block csspart %}
+    <!-- Assets-MS favicon -->
+    <link rel="shortcut icon" href="{% static 'assets/images/favicon.ico' %}">
+    <!-- Bootstrap CSS -->
+    <link href="{% static 'assets/css/bootstrap.min.css' %}" id="bootstrap-style" rel="stylesheet" type="text/css" />
+    <!-- Icons CSS -->
+    <link href="{% static 'assets/css/icons.min.css' %}" rel="stylesheet" type="text/css" />
+    <!-- App CSS -->
+    <link href="{% static 'assets/css/app.min.css' %}" id="app-style" rel="stylesheet" type="text/css" />
+    {% endblock csspart %}
+
+</head>
+
+<body class="bg-pattern">
+    <div class="bg-overlay"></div>
+    <div class="account-pages my-5 pt-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-4 col-lg-6 col-md-8">
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <div class="">
+                                <div class="text-center">
+                                    <a href="#" class="">
+                                        <img height="100" width="150" src="{% static 'assets/images/logo-login.png' %}"
+                                            alt="" height="24" class="auth-logo logo-dark mx-auto">
+                                        <img src="{% static 'assets/images/logo-login.png' %}" alt="" height="24"
+                                            class="auth-logo logo-light mx-auto">
+                                    </a>
+                                </div>
+                                <!-- end row -->
+                                <h4 class="font-size-18 text-muted mt-2 text-center">Welcome Back !</h4>
+                                <p class="mb-5 text-center">Sign in to continue.</p>
+                                <form class="form-horizontal" id="login-form" action="#" method="POST">
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="mb-4">
+                                                <label class="form-label" for="username">Username</label>
+                                                {{form.username}}
+                                            </div>
+                                            <div class="mb-4">
+                                                <label class="form-label" for="userpassword">Password</label>
+                                                {{form.password}}
+                                            </div>
+
+                                            <div class="row sign-in">
+                                                <div class="col">
+                                                    <div class="form-check">
+                                                        <input type="checkbox" class="form-check-input"
+                                                            id="customControlInline">
+                                                        <label class="form-label" class="form-check-label"
+                                                            for="customControlInline">Remember me</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-grid mt-4">
+                                                <button class="btn btn-primary waves-effect waves-light"
+                                                    type="submit">Log In</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-5 text-center">
+                        <p class="text-white-50">©
+                            <script>document.write(new Date().getFullYear())</script> Orphic
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- end row -->
+        </div>
+    </div>
+    <!-- end Account pages -->
+
+    {%block script%}
+    <!-- JAVASCRIPT -->
+    <script src="{% static 'assets/libs/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/libs/metismenu/metisMenu.min.js' %}"></script>
+    <script src="{% static 'assets/libs/simplebar/simplebar.min.js' %}"></script>
+    <script src="{% static 'assets/libs/node-waves/waves.min.js' %}"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
+    <script src="{% static 'assets/js/action.js' %}"></script>
+    {%endblock script%}
+</body>
+
+</html>

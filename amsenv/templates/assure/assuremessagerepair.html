@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Repair | Assets MS{% endblock title %}
+{% block content %}
+{% block inlinecss %}
+{% endblock inlinecss %}
+<!-- ============================================================== -->
+<!-- Start right Content here -->
+<!-- ============================================================== -->
+<div class="main-content">
+
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Assure Message</h4>
+
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item active">Repair</li>
+                            </ol>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+            <!-- end page title -->
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Repaired ?</h4>
+                            <p class="card-title-desc">Is {{assetinfo}} repaired ?</p>
+
+                            <div class="table-responsive">
+                                <table class="table table-striped mb-0" style="width: 18%;">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <form method="POST" action="{% url 'repairmantain' %}"
+                                                    style="border:none">
+                                                    {% csrf_token %}
+                                                    <input type="text" value="{{assetinfo}}" name="asset_code" hidden>
+                                                    <button type="submit" class="btn btn-success btn-sm m-1"
+                                                        style="width: 100%;">Yes</button>
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <form method="POST" action="{% url 'repairmantain' %}">
+                                                    {% csrf_token %}
+
+                                                    <button type="submit" class="btn btn-danger btn-sm m-1"
+                                                        style="width: 100%;">No</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end card -->
+                </div> <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+    {% endblock content %}
+    {% block inlinescript %}
+    <script>
+
+    </script>
+    {% endblock inlinescript %}

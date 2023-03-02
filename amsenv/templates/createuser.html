@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Add User | Assets MS{% endblock title %}
+{% block content %}
+<!-- ============================================================== -->
+<!-- Start right Content here -->
+<!-- ============================================================== -->
+<div class="main-content">
+
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Add New User</h4>
+
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Users</a></li>
+                                <li class="breadcrumb-item active">Add New User</li>
+                            </ol>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Add New User</h4>
+                            <p class="card-title-desc">Add new/unrecorded user in the system by using the form below.
+                            </p>
+                            {% for message in messages %}
+                            {%if message.tags == 'error' %}
+                            <div class="alert alert-danger alert-dismissible fade show" id="messagediv" role="alert">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close"
+                                    id="btnclose">&times;</a>
+                                </button>
+                                {{ message }}
+                            </div>
+                            {%else%}
+                            <div class="alert alert-{{message.tags}} alert-dismissible fade show" id="messagediv"
+                                role="alert">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close"
+                                    id="btnclose">&times;</a>
+                                </button>
+                                {{ message }}
+                            </div>
+                            {%endif%}
+                            {% endfor %}
+                            <form class="needs-validation" method="POST" action="{% url 'adduser' %}"
+                                enctype="multipart/form-data" novalidate>
+                                <div class="row">
+
+                                    <div class="mb-3 position-relative">
+                                        <label for="text-input" class="col-md-2 col-form-label">User's Full Name</label>
+                                        <div class="col-md-10">
+                                            <input class="form-control" type="text"
+                                                placeholder="Type the name of the user" id="name-text-input"
+                                                name="fullname" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3 position-relative">
+                                        <label for="text-input" class="col-md-2 col-form-label">Username</label>
+                                        <div class="col-md-10">
+                                            <input class="form-control" type="text"
+                                                placeholder="Type the username that will be used to login"
+                                                id="name-text-input" name="username" required>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 position-relative">
+                                        <label for="text-input" class="col-md-2 col-form-label">Current Position</label>
+                                        <div class="col-md-10">
+                                            <input class="form-control" type="text" placeholder="position"
+                                                id="name-text-input" name="currentposition" required>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 position-relative">
+                                        <label for="text-input" class="col-md-2 col-form-label">Password</label>
+                                        <div class="col-md-10">
+                                            <input class="form-control" type="password" placeholder="Type the password"
+                                                id="name-text-input" name="password" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3 position-relative">
+                                        <label for="text-input" class="col-md-2 col-form-label">Confirm Password</label>
+                                        <div class="col-md-10">
+                                            <input class="form-control" type="password"
+                                                placeholder="Type the password again" id="name-text-input"
+                                                name="repassword" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3 position-relative">
+                                        <label for="text-input" class="col-md-2 col-form-label">Select User Type</label>
+                                        <div class="col-md-10">
+                                            <select class="form-select" name="access" id="" required>
+                                                <option>superadmin</option>
+                                                <option>user</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Submit Form -->
+                                <div class="text-center">
+                                    <button class="btn btn-primary" type="submit">Add User</button>
+                                </div>
+
+
+                            </form>
+                            <br />
+                        </div>
+                    </div>
+                    <!-- end card -->
+                    <div class="card">
+                        <div class="card-body">
+
+                            <p class="card-title-desc">The password must have
+                            <ul>
+                                <li>
+                                    at least one uppercase and one lowercase character.
+                                </li>
+                                <li>
+                                    a minimum of one numeric character.
+                                </li>
+                                <li>
+                                    at least one special symbol.
+                                </li>
+                                <li>
+                                    6 to 20 characters long.
+                                </li>
+                            </ul>
+                            </p>
+                        </div>
+                    </div>
+                </div> <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+    {% endblock content %}

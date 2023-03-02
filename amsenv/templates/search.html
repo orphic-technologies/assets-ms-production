@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Search | Assets MS{% endblock title %}
+{% block content %}
+<!-- ============================================================== -->
+<!-- Start right Content here -->
+<!-- ============================================================== -->
+<div class="main-content">
+    ​
+    <div class="page-content">
+        <div class="container-fluid">
+            ​
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Filter Assets</h4>
+                        ​
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Assets</a></li>
+
+                                <li class="breadcrumb-item active">Search</li>
+                            </ol>
+                        </div>
+                        ​
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+            <div class="row">
+
+                <div class="row">
+                    <!-- App Search-->
+                    <div class="col-xl-9">
+                        <form method="GET" action="{% url 'search' %}" class="app-search d-none d-lg-block">
+
+                            <div class="position-relative">
+                                <input name="query" type="text" class="form-control input" placeholder="Search...">
+                                <span class="ri-search-line"></span>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-xl-3">
+                        <form method="POST" action="{% url 'search' %}" class="app-search d-none d-lg-block">
+
+                            <div class="position-relative">
+                                <input type="text" value="all" name="all" hidden>
+                                <button type="submit" class="btn btn-outline-success btn-sm m-2">Go Back</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">View Assets</h4>
+                            <p class="card-title-desc">The list of the assets that have been added in the system are
+                                shown below.</p>
+                            <div class="table-responsive">
+                                <table class="table table-striped mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Asset Info</th>
+                                            <th>Assset Code</th>
+                                            <th>Pool</th>
+                                            <th>Category</th>
+                                            <th>Location</th>
+                                            <th>Possession</th>
+                                            <th>Condition</th>
+                                            <th>Vendor</th>
+                                            <th>Available Status</th>
+                                            ​
+                                        </tr>
+                                    </thead>
+                                    Search Results
+                                    <tbody>
+                                        {% for asset in products %}
+                                        <tr>
+                                            <td>
+                                                <p class="mb-1 font-size-12">{{asset.name_of_asset}}</p>
+                                            </td>
+                                            <td>
+                                                <p class="mb-1 font-size-12">{{asset.asset_code}}</p>
+                                            </td>
+                                            <td>
+                                                <p class="mb-1 font-size-12">{{asset.assets_pool}}</p>
+                                            </td>
+                                            <td>
+                                                <p class="mb-1 font-size-12">{{asset.product_category}}</p>
+                                            </td>
+                                            <td>
+                                                <p class="mb-1 font-size-12">{{asset.asset_location}}</p>
+                                            </td>
+                                            {% for users in asset.user.all %}
+                                            <td>
+                                                <p class="mb-1 font-size-12">{{users.fullname}}</p>
+                                            </td>
+                                            {%empty%}
+                                            <td>
+                                                <p class="mb-1 font-size-12">-</p>
+                                            </td>
+
+                                            {%endfor%}
+
+                                            <td>
+                                                <p class="mb-1 font-size-12">{{asset.condition_of_asset}}</p>
+                                            </td>
+                                            <td>
+                                                <p class="mb-1 font-size-12">{{asset.vendor}}</p>
+                                            </td>
+                                            <td>
+                                                <p class="mb-1 font-size-12">{{asset.availale_status}}</p>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            ​
+                        </div>
+                    </div>
+                    <!-- end card -->
+                </div> <!-- end col -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+</div>
+
+{% endblock content %}

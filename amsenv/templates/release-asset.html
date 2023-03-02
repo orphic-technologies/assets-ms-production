@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Dashboard{% endblock title %}
+{% block content %}
+<!-- ============================================================== -->
+<!-- Start right Content here -->
+<!-- ============================================================== -->
+<div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
+            <!-- start page title -->
+            <div class="row" id="hideBorder">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Release/Return Assets</h4>
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Assets</a></li>
+                                <li class="breadcrumb-item active">Release</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="show-message">
+
+                            </div>
+
+                            <form>
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <div class="mt-3 me-sm-2">
+                                            <label for=" inlineFormInput">Assignee Name</label>
+
+                                            <input class="form-control" type="text" value="{{assigned_to}}" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <div class="mt-3 me-sm-2">
+                                            <label for=" inlineFormInput">Issued By</label>
+
+                                            <input class="form-control" type="text" value="{{asigned_by}}" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <div class="mt-3 me-sm-2">
+                                            <label for=" inlineFormInput">Purpose</label>
+                                            <input class="form-control" type="text" value="{{purpose}}" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <div class="mt-3 me-sm-2">
+                                            <label for=" inlineFormInput">Date of Issue</label>
+                                            <input class="form-control" type="text" value="{{assigned_date}}" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <div class="mt-3 me-sm-2">
+                                            <label for=" inlineFormInput">Expected Date of Return</label>
+                                            <input class="form-control" type="text" value="{{expected_date_of_return}}"
+                                                disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <div class="mt-3 me-sm-2">
+                                            <label for=" inlineFormInput">Date of Return</label>
+                                            <input class="form-control" type="date" id="dateofr" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h4 class="card-title">List of Assets to Release</h4>
+                                            <div class="table-responsive">
+                                                <table class="table mb-0" id="table-release">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Name of Asset</th>
+                                                            <th>Code</th>
+                                                            <th>Condition</th>
+                                                            <th>Select</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {%for assets in assigned%}
+                                                        <tr>
+                                                            <td>
+                                                                <h5 class="font-size-15 mb-0" id="nameofasset">
+                                                                    {{assets.asset_info.name_of_asset}}</h5>
+                                                                <p class="mb-1 font-size-12" id="assetcode">
+                                                                    {{assets.asset_info.asset_code}}</p>
+                                                                <p class="mb-1 font-size-12" id="token" hidden>
+                                                                    {{assets.token}}</p>
+                                                            </td>
+                                                            <td>{{assets.asset_info.asset_code}}</td>
+                                                            <td>
+                                                                <select class="form-select" name="condition"
+                                                                    id="releasecondition" required>
+                                                                    <option selected
+                                                                        value="{{asset.condition_of_asset}}">
+                                                                        {{assets.asset_info.condition_of_asset}}
+                                                                    </option>
+                                                                    <option>Good</option>
+                                                                    <option>Requires Repair</option>
+                                                                    <option>Sold</option>
+                                                                    <option>Unusable</option>
+                                                                    <option>Lost</option>
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-check">
+                                                                    <input type="checkbox" class="form-check-input"
+                                                                        id="customCheck4">
+                                                                    <label class="form-check-label"
+                                                                        for="customCheck4"></label>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        {%endfor%}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                            <div class="text-center"><button class="btn btn-success" type="submit"
+                                                    id="release-button">Release</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock content %}

@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Trash | Vendor{% endblock title %}
+{% block content %}
+<!-- ============================================================== -->
+<!-- Start right Content here -->
+<!-- ============================================================== -->
+<div class="main-content">
+
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">View Vendors</h4>
+
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Vendors</a></li>
+                                <li class="breadcrumb-item active">Manage</li>
+                                <li class="breadcrumb-item active">Trash</li>
+                            </ol>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            {% for message in messages %}
+            {%if message.tags == 'error' %}
+            <div class="alert alert-danger alert-dismissible fade show" id="messagediv" role="alert">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close" id="btnclose">&times;</a>
+                </button>
+                {{ message }}
+            </div>
+            {%else%}
+            <div class="alert alert-{{message.tags}} alert-dismissible fade show" id="messagediv" role="alert">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close" id="btnclose">&times;</a>
+                </button>
+                {{ message }}
+            </div>
+            {%endif%}
+            {% endfor %}
+            <!-- end page title -->
+            {% if page_obj%}
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">View Vendor</h4>
+                            <p class="card-title-desc">The list of the vendors that have been added in the system are
+                                shown below.</p>
+
+                            <div class="table-responsive">
+                                <table class="table table-striped mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Vendor's Name</th>
+                                            <th>Vendor's Address</th>
+                                            <th>Contact Person</th>
+                                            <th>Phone Number</th>
+                                            <th>PAN/VAT No</th>
+                                            <th>Restore ?</th>
+                                            <th>Delete Permanently ?</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {%for vendor in page_obj%}
+                                        <tr>
+                                            <td>{{vendor.name_of_vendor}}</td>
+                                            <td>{{vendor.address}}</td>
+                                            <td>{{vendor.contact_person}}</td>
+                                            <td>{{vendor.contact_no}}</td>
+                                            <td>{{vendor.pan_no}}</td>
+
+                                            <td>
+                                                <form method="POST" action="{% url 'assuremessagerestore' %}">
+                                                    {% csrf_token %}
+                                                    <input type="text" value="{{vendor.vendor_no}}" name="vendor_no"
+                                                        hidden>
+                                                    <input type="text" value="fromdeletevendor" name="fromdeletevendor"
+                                                        hidden>
+                                                    <button type="submit"
+                                                        class="btn btn-outline-success btn-sm m-1">Restore</button>
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <form method="POST" action="{% url 'assuremessage' %}">
+                                                    {% csrf_token %}
+                                                    <input type="text" value="{{vendor.vendor_no}}" name="vendor_no"
+                                                        hidden>
+                                                    <input type="text" value="fromdeletevendor" name="fromdeletevendor"
+                                                        hidden>
+                                                    <button type="submit"
+                                                        class="btn btn-outline-danger btn-sm m-1">Delete</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                        {%endfor%}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end card -->
+                    <div id="beforeRemovePag">
+                        <nav aria-label="Page navigation example" class="removePag">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item">
+                                    {% if page_obj.has_previous %}
+                                    <a class="page-link" tabindex="-1"
+                                        href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                                    {% endif %}
+                                </li>
+                                <li class="page-item"><a class="page-link" href="#">{{page_obj.number }}
+                                        of
+                                        {{ page_obj.paginator.num_pages }}</a></li>
+                                <li class="page-item">
+                                    {% if page_obj.has_next %}
+                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                                    {% endif %}
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div> <!-- end col -->
+            </div>
+            <!-- end row -->
+            {%else%}
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Trash is empty</h4>
+
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+    {% endblock content %}
