@@ -77,8 +77,13 @@ WSGI_APPLICATION = "ams.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "asset_db",
+        "USER": "asset_user",
+        "PASSWORD": "SWN@NEPAL#444",
+        "HOST": "localhost",
+        "PORT": "",
+
     }
 }
 
